@@ -5,12 +5,21 @@ echo "Deploy Started"
 echo "Extracting environment variables..."
 source setenv.sh
 
-echo "Running tests..."
+echo "Compiling REST services..."
 cd ./rest-api-service
+npm install
+
+echo "Running tests..."
 jest || exit 1
+
+echo "Compile and test complete."
 cd ..
 
 echo "Deploying Serverless Stack..."
+npm install --save serverless-functions-base-path
+npm install --save serverless-iam-roles-per-function
+npm install --save serverless-pseudo-parameters
+npm install --save serverless-dotenv-plugin
 sls deploy
 
 echo "Extracting Serverless Outputs..."
@@ -20,6 +29,7 @@ export CLIENT_ENDPOINT=$(serverless info --verbose | grep ClientEndpoint | sed s
 
 echo "Compiling React Project..."
 cd ./gym-time-site
+npm install
 rm -rf build
 npm run build
 
