@@ -1,0 +1,11 @@
+accountsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: accounts
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: accountId
+        AttributeType: S
+    KeySchema:
+      - AttributeName: accountId
+        KeyType: HASH

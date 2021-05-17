@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack-api-docker
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES= dynamodb
+      - DATA_DIR=/tmp/localstack/data
+
+  setup-infrastructure:
+    image: amazon/aws-cli
+    environment:
+      AWS_ACCESS_KEY_ID: 'dummyAccess'
+      AWS_SECRET_ACCESS_KEY: 'dummySecret'
+      AWS_DEFAULT_REGION: 'ap-southeast-2'
+    entrypoint: /bin/sh -c
+    command: >
+      "
+        # Needed so all localstack components will startup correctly (i'm sure there's a better way to do this)
+        sleep 10;
+        aws dynamodb create-table --endpoint-url=http://localstack:4566 --table-name accounts \
+          --attribute-definitions AttributeName=accountId,AttributeType=S \
+          --key-schema AttributeName=accountId,KeyType=HASH \
+          --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5;
+      "
+    depends_on:
+      - localstack
+
+  frontend:
+    build:
+      context: ./gym-time-site
+      dockerfile: ./Dockerfile
+    image: "shakeel.mohammed1/gym-time-client"
+    ports:
+      - "3000:3000"
+    links:
+      - "backend:be"
+    environment:
+      REACT_APP_REST_SERVICE: 'http://localhost:3001/api'
+
+  backend:
+    build:
+      context: ./rest-api-service
+      dockerfile: ./Dockerfile
+    depends_on:
+      - localstack
+    image: "shakeel.mohammed1/gym-time-rest-api-service"
+    ports:
+      - "3001:3001"
+    environment:
+      STAGE: 'local'
+      AWS_ENDPOINT: 'http://localstack:4566'
+      REGION: 'ap-southeast-2'
+      REST_SERVICE: 'http://localhost:3001/api'
+      CLIENT_SERVICE: 'http://localhost:3000'
+      SENDGRID_API_KEY: "${SENDGRID_API_KEY}"
+      MAILGUN_API_KEY: "${MAILGUN_API_KEY}"
+      MAILGUN_DOMAIN: "${MAILGUN_DOMAIN}"
+      SRC_EMAIL_ADDRESS: "${SRC_EMAIL_ADDRESS}"

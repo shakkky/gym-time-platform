@@ -1,0 +1,12 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# Client package directories
+./gym-time-site/node_modules/**
+
+# Rest Service package directories
+./rest-api-service/node_modules/**

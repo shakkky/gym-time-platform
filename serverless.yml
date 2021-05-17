@@ -1,0 +1,96 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+service: gym-time-platform
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-functions-base-path
+  - serverless-iam-roles-per-function
+  - serverless-pseudo-parameters
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-southeast-2
+  environment:
+    STAGE: ${self:provider.stage}
+    REGION: ${self:provider.region}
+    CLIENT_SERVICE: ${self:custom.CLIENT_SERVICE}
+    SENDGRID_API_KEY: ${self:custom.SENDGRID_API_KEY}
+    MAILGUN_API_KEY: ${self:custom.MAILGUN_API_KEY}
+    MAILGUN_DOMAIN: ${self:custom.MAILGUN_DOMAIN}
+    SRC_EMAIL_ADDRESS: ${self:custom.SRC_EMAIL_ADDRESS}
+    REST_SERVICE:
+      Fn::Join:
+        - ""
+        - - "https://"
+          - Ref: "ApiGatewayRestApi"
+          - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:Query
+        - dynamodb:Scan
+      Resource:
+        - ${self:custom.accountsTable.arn}
+
+custom:
+  functionsBasePath: rest-api-service/services
+  s3Bucket: gym-time-platform-#{AWS::AccountId}
+  CLIENT_SERVICE: http://${self:custom.s3Bucket}.s3-website-${self:provider.region}.amazonaws.com
+  SENDGRID_API_KEY: ${env.SENDGRID_API_KEY}
+  MAILGUN_API_KEY: ${env.MAILGUN_API_KEY}
+  MAILGUN_DOMAIN: ${env.MAILGUN_DOMAIN}
+  SRC_EMAIL_ADDRESS: ${env.SRC_EMAIL_ADDRESS}
+  accountsTable:
+    name: accounts
+    arn: arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.accountsTable.name}
+
+package:
+  excludeDevDependencies: true
+  exclude:
+    - "*/**"
+  include:
+    - rest-api-service/node_modules/**
+    - rest-api-service/db/**
+    - rest-api-service/services/**
+    - rest-api-service/utils/**
+
+functions:
+  account-create-service:
+    handler: account-create-service.accountCreateHandler
+    events:
+      - http:
+          path: accounts
+          method: post
+          cors: true
+  account-validator-service:
+    handler: account-validator-service.accountValidatorHandler
+    events:
+      - http:
+          path: accounts/{accountId}
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    accountsTable: ${file(./serverless-resources/dynamodb-tables.yml):accountsTable}
+    s3Bucket: ${file(./serverless-resources/s3-bucket.yml):S3Bucket}
+    s3BucketPolicy: ${file(./serverless-resources/s3-bucket.yml):S3BucketPolicy}
+  Outputs:
+    ServiceEndpoint:
+      Export:
+        Name: API-Endpoint
+    S3BucketName:
+      Value: ${self:custom.s3Bucket}
+    ClientEndpoint:
+      Value: ${self:custom.CLIENT_SERVICE}
