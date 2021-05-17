@@ -147,6 +147,20 @@ Remove from AWS:
     ```sh
     bash destroy-dev.sh
     ```
+### Jest Tests
+Jest Tests are run automatically and **MUST** pass in order to deploy to AWS.
+Passed tests:
+  ```
+  Running tests...
+  PASS  __tests__/account-create-service.spec.js
+  PASS  __tests__/account-validator-service.spec.js
+
+  Test Suites: 2 passed, 2 total
+  Tests:       7 passed, 7 total
+  Snapshots:   0 total
+  Time:        3.171 s
+  Ran all test suites.
+  ```
 
 ## Roadmap
 There are a few improvements I would like to make:
