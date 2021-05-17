@@ -79,16 +79,16 @@ To get a local copy up and running follow these simple steps.
 
 This is an example of how to list things you need to use the software and how to install them:
 1. Ensure Docker is installed on local machine:
-  ```sh
-  docker version
-  ```
-  If Docker is not installed, follow [these](https://docs.docker.com/get-docker) steps.
+    ```sh
+    docker version
+    ```
+    If Docker is not installed, follow [these](https://docs.docker.com/get-docker) steps.
 
 2. Ensure AWS CLI is installed on local machine:
-  ```sh
-  aws --version
-  ```
-  If AWS CLI is not installed, follow [these](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) steps.
+    ```sh
+    aws --version
+    ```
+    If AWS CLI is not installed, follow [these](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) steps.
 
 3. Get free SendGrid API keys by following [these](https://sendgrid.com/docs/for-developers/sending-email/api-getting-started) steps.
 
@@ -97,56 +97,56 @@ This is an example of how to list things you need to use the software and how to
 ### Installation & Setup
 
 1. Clone the repo
-   ```sh
-   git clone https://github.com/shakkky/gym-time-platform.git
-   ```
+    ```sh
+    git clone https://github.com/shakkky/gym-time-platform.git
+    ```
 2. Enter your API keys, Mailgun domain, and verified email address in `.env` file
-   ```sh
-   SENDGRID_API_KEY=<SG_API_KEY_HERE>
-   MAILGUN_API_KEY=<MG_API_KEY_HERE>
-   MAILGUN_DOMAIN=<MG_DOMAIN_HERE>
-   SRC_EMAIL_ADDRESS=<your_verified_email@example.com>
-   ```
+    ```sh
+    SENDGRID_API_KEY=<SG_API_KEY_HERE>
+    MAILGUN_API_KEY=<MG_API_KEY_HERE>
+    MAILGUN_DOMAIN=<MG_DOMAIN_HERE>
+    SRC_EMAIL_ADDRESS=<your_verified_email@example.com>
+    ```
 
 ## Usage
 The application can be run locally, as well as deployed to AWS. When running locally, a docker container running LocalStack is spun up and used by REST service rather than AWS hosted services to allow for localized development and testing. Note - Emails may be blocked by your mail server. If you're unable to receive an email, please try using a different account.
 
 Running Locally:
 1. Build docker containers using docker-compose build:
-   ```sh
-   docker-compose build
-   ```
+    ```sh
+    docker-compose build
+    ```
 2. Start docker containers using docker-compose up:
-   ```sh
-   docker-compose up
-   ```
+    ```sh
+    docker-compose up
+    ```
 3. The application is now running on your local machine. Navigate to react frontend hosted in Docker container: http://localhost:3000
 
 Note, here are a few commands that are useful for viewing DynamoDB table running in LocalStack:
 * Scan "accounts" table:
-   ```sh
-   aws --region=ap-southeast-2 --endpoint-url=http://localhost:4566 dynamodb scan --table-name=accounts
-   ```
+    ```sh
+    aws --region=ap-southeast-2 --endpoint-url=http://localhost:4566 dynamodb scan --table-name=accounts
+    ```
 * Delete "accounts" table:
-   ```sh
-   aws --region=ap-southeast-2 --endpoint-url=http://localhost:4566 dynamodb delete-table --table-name=accounts
-   ```
+    ```sh
+    aws --region=ap-southeast-2 --endpoint-url=http://localhost:4566 dynamodb delete-table --table-name=accounts
+    ```
 
 Deploy to AWS:
 1. Execute deploy-dev.sh bash script:
-   ```sh
-   bash deploy-dev.sh
-   ```
+    ```sh
+    bash deploy-dev.sh
+    ```
 2. The bash script outputs the URL to the S3 website:
-   ```sh
-   Client Endpoint: <YOUR CLIENT ENDPOINT>
-   ```
+    ```sh
+    Client Endpoint: <YOUR CLIENT ENDPOINT>
+    ```
 
 Remove from AWS:
 1. Execute destroy-dev.sh bash script:
-   ```sh
-   bash destroy-dev.sh
-   ```
+    ```sh
+    bash destroy-dev.sh
+    ```
 
 ## Roadmap
 There are a few improvements I would like to make:
