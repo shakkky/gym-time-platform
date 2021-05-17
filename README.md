@@ -71,6 +71,9 @@ The application has been built to be run locally in Docker containers, and as se
 * [Serverless](https://www.serverless.com)
 * [LocalStack](https://localstack.cloud)
 
+### Design Diagram
+[![Design Diagram][design-diagram]]
+
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
@@ -183,3 +186,4 @@ Project Link: [https://github.com/shakkky/gym-time-platform](https://github.com/
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/shakeel-mohammed-5b046a183/
 [product-screenshot]: images/screenshot.jpg
+[design-diagram]: images/design-diagram.png
