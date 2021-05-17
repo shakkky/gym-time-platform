@@ -48,7 +48,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](http://gym-time-platform-452098011534.s3-website-ap-southeast-2.amazonaws.com)
 
-This a self-serve signup flow for fictional business - Gym Time. The user flow of the module is as follows:
+This a self-serve signup flow for fictional business - Gym Time.
 
 The user flow of the module is as follows:
 * A user is presented with a sign-up page and ready to sign up. 
