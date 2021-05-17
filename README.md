@@ -72,7 +72,7 @@ The application has been built to be run locally in Docker containers, and as se
 * [LocalStack](https://localstack.cloud)
 
 ### Design Diagram
-[![Design Diagram][design-diagram]]
+![Design Diagram][design-diagram]
 
 ## Getting Started
 
