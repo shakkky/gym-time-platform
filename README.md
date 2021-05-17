@@ -83,12 +83,15 @@ This is an example of how to list things you need to use the software and how to
   docker version
   ```
   If Docker is not installed, follow [these](https://docs.docker.com/get-docker) steps.
+
 2. Ensure AWS CLI is installed on local machine:
   ```sh
   aws --version
   ```
   If AWS CLI is not installed, follow [these](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) steps.
+
 3. Get free SendGrid API keys by following [these](https://sendgrid.com/docs/for-developers/sending-email/api-getting-started) steps.
+
 4. Get free MailGun API keys creating an account and following [these](https://help.mailgun.com/hc/en-us/articles/203380100-Where-Can-I-Find-My-API-Key-and-SMTP-Credentials-) steps.
 
 ### Installation & Setup
