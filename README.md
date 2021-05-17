@@ -167,6 +167,7 @@ There are a few improvements I would like to make:
 * Use "supertest" to simluate HTTP requests during testing to run more service-level/functional tests.
 * Implement more thorough tests by mocking AWS services using LocalStack or Sinon.
 * Implement a more scalable way to handle AWS deployments. Bash script does not offer the same flexibility as using sls commands directly.
+* Implement a Docker container to be used for application build and deployment.
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
